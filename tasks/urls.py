@@ -1,14 +1,14 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from tasks.views import TaskWebhookView
 
 from tasks.views import (
     ProjectViewSet,
-    TaskViewSet,
-    TaskAttachmentListCreateView,
     TaskAttachmentDetailView,
-    TaskWebhookView
+    TaskAttachmentListCreateView,
+    TaskViewSet,
+    TaskWebhookView,
 )
+
 router = DefaultRouter()
 
 router.register('projects', ProjectViewSet, basename='project')

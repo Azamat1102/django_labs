@@ -1,5 +1,6 @@
-from accounts.models import Membership, Role
 from rest_framework.permissions import BasePermission
+
+from accounts.models import Membership, Role
 
 
 def is_project_member(user, project):

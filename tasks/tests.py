@@ -1,11 +1,13 @@
-from django.test import TransactionTestCase
-from django.db import connection, close_old_connections
 from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
 from unittest import skipUnless
+
 from django.contrib.auth.models import User
-from tasks.models import Project
+from django.db import close_old_connections, connection
+from django.test import TransactionTestCase
+
 from accounts.models import Membership, Role
+from tasks.models import Project
 from tasks.services import transfer_project_ownership
 
 

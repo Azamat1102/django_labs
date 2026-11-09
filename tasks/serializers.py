@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from tasks.models import Project, Task
-from tasks.permissions import is_project_member
-from tasks.models import TaskAttachment
 from rest_framework.exceptions import ValidationError
+
+from tasks.models import Project, Task, TaskAttachment
+from tasks.permissions import is_project_member
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,11 +54,10 @@ class TaskSerializer(serializers.ModelSerializer):
                 'project': 'У вас нет доступа к этому проекту'
             })
 
-        if assigned_to and project:
-            if not is_project_member(assigned_to, project):
-                raise serializers.ValidationError({
-                    'assigned_to': 'Пользователь не состоит в проекте'
-                })
+        if assigned_to and project and not is_project_member(assigned_to, project):
+            raise serializers.ValidationError({
+                'assigned_to': 'Пользователь не состоит в проекте'
+            })
 
         return attrs
 

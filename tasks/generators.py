@@ -1,6 +1,8 @@
-from tasks.models import Project, Task
-from django.contrib.auth.models import User
 import random
+
+from django.contrib.auth.models import User
+
+from tasks.models import Project, Task
 
 
 def generate_data():

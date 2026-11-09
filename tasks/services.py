@@ -1,7 +1,7 @@
 
 from django.contrib.auth.models import User
-from django.db import transaction
 from django.core.cache import cache
+from django.db import transaction
 
 from accounts.models import Membership, Role
 from tasks.models import Project, Task

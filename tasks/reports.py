@@ -1,5 +1,6 @@
-from tasks.models import Project, Task
 from django.db.models import Count, Q
+
+from tasks.models import Project, Task
 
 
 def get_projects_report():

@@ -1,46 +1,41 @@
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.filters import OrderingFilter
-from rest_framework.exceptions import ValidationError, PermissionDenied
-from rest_framework.permissions import IsAuthenticated
-
-from django.core.cache import cache
-from django.db.models import Count, Q
-from django.contrib.auth.models import User
-from django.db import transaction
-from django.shortcuts import get_object_or_404
-from django.http import FileResponse
-
-from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser, FormParser
-
-from tasks.models import TaskAttachment
-from tasks.serializers import TaskAttachmentSerializer
-from tasks.permissions import is_project_member
 import json
 import time
-
-from django.conf import settings
-from django.utils import timezone
-from django.db import IntegrityError
-from tasks.models import WebhookEvent
-from tasks.webhooks import verify_webhook_signature
-from tasks.services import invalidate_project_stats
-
 import uuid
 
+from django.contrib.auth.models import User
+from django.core.cache import cache
+from django.db import IntegrityError, transaction
+from django.db.models import Count, Q
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied, ValidationError
+from rest_framework.filters import OrderingFilter
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from accounts.models import Membership, Role
-from tasks.models import Project, Task, NotificationDelivery
-from tasks.serializers import ProjectSerializer, TaskSerializer
+from tasks.models import (
+    NotificationDelivery,
+    Project,
+    Task,
+    TaskAttachment,
+    WebhookEvent,
+)
 from tasks.pagination import TaskPagination
-from tasks.permissions import (
-    TaskAccessPermission,
-    is_project_admin
+from tasks.permissions import TaskAccessPermission, is_project_admin, is_project_member
+from tasks.serializers import (
+    ProjectSerializer,
+    TaskAttachmentSerializer,
+    TaskSerializer,
 )
 from tasks.services import create_project, invalidate_project_stats
 from tasks.tasks import send_assignment_notification
+from tasks.webhooks import verify_webhook_signature
+
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer

@@ -1,8 +1,9 @@
 
-from django.db import models
-from django.conf import settings
-import uuid
 import os
+import uuid
+
+from django.conf import settings
+from django.db import models
 
 
 class Project(models.Model):
