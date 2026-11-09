@@ -26,7 +26,7 @@ class Membership(models.Model):
     )
 
     class Meta:
-        constraints = [
+        constraints: list = [
             models.UniqueConstraint(
                 fields=['user', 'project'],
                 name='unique_user_project'
